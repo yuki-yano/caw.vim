@@ -339,8 +339,8 @@ function! caw#get_both_sides_space_cols(skip_blank_line, from_lnum, to_lnum) abo
     if a:skip_blank_line && line =~# '^\s*$'
       continue    " Skip blank line.
     endif
-    let l = strchars(matchstr(line, '^\s*')) + 1
-    let r = strchars(line) + 1
+    let l = strdisplaywidth(matchstr(line, '^\s*')) + 1
+    let r = strdisplaywidth(line) + 1
     if l < left
       let left = l
     endif
@@ -357,11 +357,13 @@ function! caw#wrap_comment_align(line, left_cmt, right_cmt, left_col, right_col)
   let indent = a:left_col >=# 2 ? l[: a:left_col-2] : ''
   let indent = indent =~# '^\s*$' ? indent : ''
   " Pad tail whitespaces.
-  if strlen(l) < a:right_col-1
-    let l .= repeat(' ', (a:right_col-1) - strlen(l))
+  echom a:right_col
+  if strdisplaywidth(l) < a:right_col-1
+    echom l
+    let l .= repeat(' ', (a:right_col-1) - strdisplaywidth(l))
   endif
   " Trim left/right whitespaces.
-  let l = l[a:left_col-1 : a:right_col-1]
+  let l = strcharpart(l, a:left_col - 1, a:right_col - 1)
   " Add left/right comment and whitespaces.
   if a:left_cmt !=# ''
     let l = a:left_cmt . l
