@@ -357,9 +357,7 @@ function! caw#wrap_comment_align(line, left_cmt, right_cmt, left_col, right_col)
   let indent = a:left_col >=# 2 ? l[: a:left_col-2] : ''
   let indent = indent =~# '^\s*$' ? indent : ''
   " Pad tail whitespaces.
-  echom a:right_col
   if strdisplaywidth(l) < a:right_col-1
-    echom l
     let l .= repeat(' ', (a:right_col-1) - strdisplaywidth(l))
   endif
   " Trim left/right whitespaces.
