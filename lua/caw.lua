@@ -15,7 +15,7 @@ function M.has_syntax(lnum, col)
   if not require"vim.treesitter.language".require_language(lang, nil, true) then
     return false
   end
-  local query = require"vim.treesitter.query".get_query(lang, "highlights")
+  local query = require"vim.treesitter.query".get(lang, "highlights")
   local tstree = vim.treesitter.get_parser(bufnr, lang):parse()[1]
   local tsnode = tstree:root()
 
